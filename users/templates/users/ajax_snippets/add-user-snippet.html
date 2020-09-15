@@ -1,0 +1,13 @@
+<tr>
+    <th scope="row">{{ user_num }}</th>
+    <td>{{ user }}</td>
+    <td>
+        {% for group in user.groups.all %}
+        {{ group }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    </td>
+    <td>
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#edit-user">Edit</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-user">Delete</button>
+    </td>
+</tr>
