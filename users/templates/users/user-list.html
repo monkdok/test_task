@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Group</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ user }}</td>
+        <td>
+            {% for group in user.groups.all %}
+            {{ group }}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        </td>
+        <td>
+            <button type="button" class="btn btn-outline-dark">Edit User</button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h4>Users:</h4><ul>
+
+    groups: (
+    {% for group in i.groups.all %}
+    {{ group }},
+    {% endfor %})
+</ul>
+{% if user.groups.all %}
+<h4>Groups:</h4>
+<ul>
+    {% for group in groups %}
+    <li>{{ group }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h4>Current user:</h4>{{ user }}
+<h4>Create new user:</h4>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+    <button>Cancel</button>
+</form>
+{% endblock content %}
