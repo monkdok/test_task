@@ -1,30 +1,17 @@
 $(document).ready(function(){
 
-
-
-
 // User create Django Ajax Call
 $("#add-user-form").on('submit', function(e) {
     e.preventDefault()
-    let username = $('#id_username').val()
+    let username = $('#add-username').val()
     let password1 = $('input#id_password1').val()
     let password2 = $('input#id_password2').val()
-    let group = $('#id_groups').val()
-    console.log('group: ' + group)
+    let group = $('#add-groups').val()
     let url = $(this).attr('action')
     let csrf_token = $("[name=csrfmiddlewaretoken]").val()
     let groups = $('#groups').val(group)
-    console.log(
-    'username: ' + username,
-    'password1: ' + password1,
-    'password2: ' + password2,
-    'groups: ' + groups,
-    'url: ' + url,
-    'csrf_token: ' + csrf_token,
-    )
     $.ajax({
         url: url,
-        // data: form.serialize(),
         data: {
         username: username,
         password1: password1,
@@ -46,6 +33,53 @@ $("#add-user-form").on('submit', function(e) {
     })
 })
 
+
+// Update User
+$(document).on('click', '#edit-btn', function(e){
+    e.preventDefault()
+    let username = $(this).attr('data-username')
+    let url = $(this).attr('data-url')
+//    let groups = $('.' + username + '-groups').text().trim()
+    // Passing initial form fields data
+    $('input#id_username').val(username)
+    $('form#edit-user-form').on('submit', function(s) {
+        s.preventDefault()
+        // forming ajax request
+        let num = $('.' + username + '> th').text().trim()
+        let new_username = $('#id_username').val()
+        let group = $('#id_groups').val()
+        let groups = $('#update-groups').val(group)
+        console.log('num: ' + num)
+        let csrf_token = $("[name=csrfmiddlewaretoken]").val()
+        $.ajax({
+            url: url,
+            data: {
+                num: num,
+                username: new_username,
+                old_username: username,
+                groups: groups.val(),
+                csrfmiddlewaretoken: csrf_token
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if (data.form_is_valid) {
+                    console.log('#' + username)
+                    console.log(data.html)
+                    $('.' + username).replaceWith(data.html)
+                    $('form#edit-user-form').trigger('reset')
+                    $('#edit-user').modal('hide')
+
+                }
+                else {
+                    alert("All fields must have a valid value.")
+
+                }
+            }
+        });
+    })
+
+})
 
 function appendToHtml(data) {
     $('#users-table').append(data)
