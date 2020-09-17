@@ -24,7 +24,8 @@ $("#add-user-form").on('submit', function(e) {
         success: function (data) {
             if (data.form_is_valid) {
                 appendToHtml(data.html)
-                console.log(data.html)
+                $('form#add-user-form').trigger('reset')
+
             }
             else {
                 alert("All fields must have a valid value.")
@@ -39,17 +40,15 @@ $(document).on('click', '#edit-btn', function(e){
     e.preventDefault()
     let username = $(this).attr('data-username')
     let url = $(this).attr('data-url')
-//    let groups = $('.' + username + '-groups').text().trim()
     // Passing initial form fields data
     $('input#id_username').val(username)
-    $('form#edit-user-form').on('submit', function(s) {
-        s.preventDefault()
+    $('form#edit-user-form').on('submit', function(e) {
+        e.preventDefault()
         // forming ajax request
         let num = $('.' + username + '> th').text().trim()
         let new_username = $('#id_username').val()
         let group = $('#id_groups').val()
         let groups = $('#update-groups').val(group)
-        console.log('num: ' + num)
         let csrf_token = $("[name=csrfmiddlewaretoken]").val()
         $.ajax({
             url: url,
@@ -64,8 +63,6 @@ $(document).on('click', '#edit-btn', function(e){
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-                    console.log('#' + username)
-                    console.log(data.html)
                     $('.' + username).replaceWith(data.html)
                     $('form#edit-user-form').trigger('reset')
                     $('#edit-user').modal('hide')
@@ -80,6 +77,37 @@ $(document).on('click', '#edit-btn', function(e){
     })
 
 })
+
+// Delete User
+$(document).on('click', '#delete-btn', function(e) {
+    e.preventDefault()
+    let username = $(this).attr('data-username')
+    let url = $(this).attr('data-url')
+    let csrf_token = $("[name=csrfmiddlewaretoken]").val()
+
+    $('form#delete-user-form').one('submit', function(e) {
+        e.preventDefault()
+        console.log('submit')
+        $.ajax({
+            url: url,
+            data: {
+                csrfmiddlewaretoken: csrf_token,
+                username: username,
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                console.log('returned')
+                if (data.deleted) {
+                    console.log('deleted')
+                    $('#users-table').replaceWith(data.html)
+                    $('#delete-user').modal('hide')
+                }
+            }
+        })
+    })
+})
+
 
 function appendToHtml(data) {
     $('#users-table').append(data)

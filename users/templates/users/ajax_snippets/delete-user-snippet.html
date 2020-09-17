@@ -1,7 +1,9 @@
+<tbody id="users-table">
+{% for user in users %}
 <tr class="{{ user }}">
-    <th scope="row">{{ user_num }}</th>
+    <th scope="row" id="num">{{ forloop.counter }}</th>
     <td>{{ user }}</td>
-    <td>
+    <td class="{{ user }}-groups">
         {% for group in user.groups.all %}
         {{ group }}{% if not forloop.last %},{% endif %}
         {% endfor %}
@@ -13,3 +15,5 @@
                 data-username="{{ user }}">Delete</button>
     </td>
 </tr>
+{% endfor %}
+</tbody>

@@ -23,7 +23,8 @@
         <td>
             <button type="button" id="edit-btn" class="btn btn-outline-dark" data-toggle="modal" data-target="#edit-user" data-url="{% url 'update_user_url' %}" data-username="{{ user }}">Edit
             </button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-user">Delete</button>
+            <button type="button" id="delete-btn" class="btn btn-danger" data-toggle="modal" data-target="#delete-user" data-url="{% url 'delete_user_url' %}"
+                    data-username="{{ user }}">Delete</button>
         </td>
     </tr>
     {% endfor %}
@@ -37,5 +38,6 @@
 <!-- Modals -->
 {% include 'users/modal-add-user.html' %}
 {% include 'users/modal-edit-user.html' %}
+{% include 'users/modal-delete-user.html' %}
 
 {% endblock content %}

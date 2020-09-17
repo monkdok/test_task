@@ -24,13 +24,13 @@ class UserListView(View):
         }
         return render(request, 'users/user-list.html', context)
 
-    def post(self, request):
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            new_form = form.save(commit=False)
-            new_form.save()
-            form.save_m2m()
-        return redirect('user_list_url')
+    # def post(self, request):
+    #     form = CustomUserCreationForm(request.POST)
+    #     if form.is_valid():
+    #         new_form = form.save(commit=False)
+    #         new_form.save()
+    #         form.save_m2m()
+    #     return redirect('user_list_url')
 
 
 class UserCreateView(View):
@@ -74,5 +74,26 @@ class UserUpdateView(View):
             data['html'] = render_to_string('users/ajax_snippets/edit-user-snippet.html', context, request)
         else:
             data['form_is_valid'] = False
+        return JsonResponse(data)
+
+
+class UserDeleteView(View):
+    def post(self, request):
+        data = {}
+        user = User.objects.get(username=request.POST['username'])
+        user.delete()
+        data['deleted'] = True
+        form = CustomUserCreationForm()
+        update_form = CustomUserChangeForm()
+        users = User.objects.all()
+        groups = Group.objects.all()
+        context = {
+            'groups': groups,
+            'form': form,
+            'update_form': update_form,
+            'users': users,
+        }
+        data['deleted'] = True
+        data['html'] = render_to_string('users/ajax_snippets/delete-user-snippet.html', context, request)
         return JsonResponse(data)
 
