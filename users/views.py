@@ -138,4 +138,17 @@ class GroupUpdateView(View):
 
 
 class GroupDeleteView(View):
-    pass
+    def post(self, request):
+        data = {}
+        group = CustomGroup.objects.get(id=request.POST['id'])
+        group.delete()
+        data['deleted'] = True
+        form = UserGroupForm()
+        groups = CustomGroup.objects.all()
+        context = {
+            'form': form,
+            'groups': groups
+        }
+        data['deleted'] = True
+        data['html'] = render_to_string('groups/ajax_snippets/delete-group-snippet.html', context, request)
+        return JsonResponse(data)

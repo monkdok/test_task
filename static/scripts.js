@@ -185,6 +185,38 @@ $(document).on('click', '#edit-btn', function(e){
 })
 
 
+// Delete Usegroupr
+$(document).on('click', '#delete-btn', function(e) {
+    e.preventDefault()
+    let id = $(this).attr('data-group-id')
+    let name = $(this).attr('data-name')
+    let url = $(this).attr('data-url')
+    let csrf_token = $("[name=csrfmiddlewaretoken]").val()
+
+    $('form#delete-group-form').one('submit', function(e) {
+        e.preventDefault()
+        console.log('submit')
+        $.ajax({
+            url: url,
+            data: {
+                csrfmiddlewaretoken: csrf_token,
+                id: id,
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                console.log('returned')
+                if (data.deleted) {
+                    console.log('deleted')
+                    $('.' + name).remove()
+                    $('#delete-group').modal('hide')
+                }
+            }
+        })
+    })
+})
+
+
 function appendToHtml(data) {
     $('#table').append(data)
 //    $("body").html(data.html)
