@@ -118,7 +118,23 @@ class GroupCreateView(View):
 
 
 class GroupUpdateView(View):
-    pass
+    def post(self, request):
+        data = {}
+        group = CustomGroup.objects.get(name=request.POST['old_name'])
+        form = UserGroupForm(request.POST or None, instance=group)
+        groups = CustomGroup.objects.all()
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            context = {
+                'group': instance,
+                'groups': groups,
+            }
+            data['form_is_valid'] = True
+            data['html'] = render_to_string('groups/ajax_snippets/edit-group-snippet.html', context, request)
+        else:
+            data['form_is_valid'] = False
+        return JsonResponse(data)
 
 
 class GroupDeleteView(View):

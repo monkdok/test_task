@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal fade" id="edit-group" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Group</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+            <form method="post" id="edit-group-form">{% csrf_token %}
+                <p>
+                    <input type="text" name="name" maxlength="150" required="" id="edit_name" placeholder="Group name">
+                </p>
+                <p>
+                    <textarea name="description" cols="40" rows="10" style="width:250px" maxlength="280" id="edit_description" placeholder="Description"></textarea>
+                </p>
+            </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" form="edit-group-form">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

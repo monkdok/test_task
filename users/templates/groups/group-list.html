@@ -19,10 +19,9 @@
         <td>{{ group.description }}</td>
         <td>
             <button type="button" id="edit-btn" class="btn btn-outline-dark" data-toggle="modal" data-target="#edit-group" data-url="{% url 'update_group_url' %}"
-                    data-group-id="{{ group.id }}">Edit
-            </button>
+                    data-name="{{ group }}" data-description="{{ group.description }}">Edit</button>
             <button type="button" id="delete-btn" class="btn btn-danger" data-toggle="modal" data-target="#delete-group" data-url="{% url 'delete_group_url' %}"
-                    data-group-id="{{ group.id }}">Delete</button>
+                    data-group-id="{{ group.id }}" data-description="{{ group.description }}">Delete</button>
         </td>
     </tr>
     {% endfor %}
@@ -35,4 +34,5 @@
 </button>
 <!-- Modals -->
 {% include 'groups/modal-add-group.html' %}
+{% include 'groups/modal-edit-group.html' %}
 {% endblock content %}

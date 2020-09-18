@@ -142,6 +142,49 @@ $("#add-group-form").on('submit', function(e) {
 })
 
 
+$(document).on('click', '#edit-btn', function(e){
+    e.preventDefault()
+    let name = $(this).attr('data-name')
+    let url = $(this).attr('data-url')
+    let description = $(this).attr('data-description')
+    // Passing initial form fields data
+    $('input#edit_name').val(name)
+    $('textarea#edit_description').val(description)
+    $('form#edit-group-form').on('submit', function(e) {
+        e.preventDefault()
+        // forming ajax request
+        let new_name = $('input#edit_name').val()
+        let description = $('textarea#edit_description').val()
+        let csrf_token = $("[name=csrfmiddlewaretoken]").val()
+        console.log(description)
+        $.ajax({
+            url: url,
+            data: {
+                name: new_name,
+                old_name: name,
+                description: description,
+                csrfmiddlewaretoken: csrf_token,
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if (data.form_is_valid) {
+                    $('.' + name).replaceWith(data.html)
+                    $('form#edit-group-form').trigger('reset')
+                    $('#edit-group').modal('hide')
+
+                }
+                else {
+                    alert("All fields must have a valid value.")
+
+                }
+            }
+        });
+    })
+
+})
+
+
 function appendToHtml(data) {
     $('#table').append(data)
 //    $("body").html(data.html)

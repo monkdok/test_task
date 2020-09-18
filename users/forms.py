@@ -34,6 +34,6 @@ class UserGroupForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'name': forms.Select(attrs={'style': 'width:250px'}),
+            # 'name': forms.Select(attrs={'style': 'width:250px'}),
             'description': forms.Textarea(attrs={'style': 'width:250px'})
         }
