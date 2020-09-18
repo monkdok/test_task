@@ -25,7 +25,7 @@ $("#add-user-form").on('submit', function(e) {
             if (data.form_is_valid) {
                 appendToHtml(data.html)
                 $('form#add-user-form').trigger('reset')
-
+                $('#add-user').modal('hide')
             }
             else {
                 alert("All fields must have a valid value.")
@@ -50,6 +50,8 @@ $(document).on('click', '#edit-btn', function(e){
         let group = $('#id_groups').val()
         let groups = $('#update-groups').val(group)
         let csrf_token = $("[name=csrfmiddlewaretoken]").val()
+        console.log('old_username: ' + username)
+        console.log('new_username: ' + new_username)
         $.ajax({
             url: url,
             data: {
@@ -109,12 +111,42 @@ $(document).on('click', '#delete-btn', function(e) {
 })
 
 
+// Create Group
+$("#add-group-form").on('submit', function(e) {
+    e.preventDefault()
+    let name = $('#id_name').val()
+    let description = $('#id_description').val()
+    let url = $(this).attr('action')
+    let csrf_token = $("[name=csrfmiddlewaretoken]").val()
+    $.ajax({
+        url: url,
+        data: {
+        name: name,
+        description: description,
+        csrfmiddlewaretoken: csrf_token
+        },
+        type: 'POST',
+        dataType: 'json',
+        success: function (data) {
+            if (data.form_is_valid) {
+                appendToHtml(data.html)
+                $('form#add-group-form').trigger('reset')
+                $('#add-group').modal('hide')
+
+            }
+            else {
+                alert("All fields must have a valid value.")
+            }
+        }
+    })
+})
+
+
 function appendToHtml(data) {
-    $('#users-table').append(data)
+    $('#table').append(data)
 //    $("body").html(data.html)
 //    $('.dropdown-toggle').dropdown()
-    $('body').removeClass('modal-open')
-    $('#add-user').modal('hide')
+//    $('body').removeClass('modal-open')
 
 }
 

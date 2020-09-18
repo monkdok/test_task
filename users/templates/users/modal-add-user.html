@@ -20,7 +20,7 @@
                     <input type="hidden" id="groups" value="">
                     <select name="groups" required="" id="add-groups" multiple="">
                         {% for group in groups.all %}
-                        <option value="{{ group }}">{{ group }}</option>
+                        <option value="{{ group.id }}">{{ group }}</option>
                         {% endfor %}
                     </select>
                 </p>

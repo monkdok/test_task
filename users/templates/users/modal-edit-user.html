@@ -10,21 +10,9 @@
       </div>
         <div class="modal-body">
             <form method="post" id="edit-user-form">{% csrf_token %}
-                <p>
-                    <input type="text" name="username" maxlength="150" required="" id="id_username" placeholder="Username">
-                </p>
+
                 <input type="hidden" id="update-groups">
-                <p><label for="id_groups">Groups:</label>
-                    <select name="groups" required="" id="id_groups" multiple="">
-                        {% for group in groups.all %}
-                        <option value="{{ group }}">{{ group }}</option>
-                        {% endfor %}
-                    </select></p>
-                <div id="id_password">
-                    <strong>No password set.</strong>
-                </div>
-                <span class="helptext">Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password using <a href="../password/">this form</a>.</span>
-                <!--                {{ update_form.as_p }}-->
+                                {{ update_form.as_p }}
             </form>
         </div>
       <div class="modal-footer">

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Groups{% endblock %}
+{% block content %}
+<table class="table">
+    <thead>
+    <tr>
+<!--        <th scope="col">#</th>-->
+        <th scope="col">Group ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody id="table">
+    {% for group in groups %}
+    <tr class="{{ group }}">
+        <td>{{ group.id }}</td>
+        <td>{{ group }}</td>
+        <td>{{ group.description }}</td>
+        <td>
+            <button type="button" id="edit-btn" class="btn btn-outline-dark" data-toggle="modal" data-target="#edit-group" data-url="{% url 'update_group_url' %}"
+                    data-group-id="{{ group.id }}">Edit
+            </button>
+            <button type="button" id="delete-btn" class="btn btn-danger" data-toggle="modal" data-target="#delete-group" data-url="{% url 'delete_group_url' %}"
+                    data-group-id="{{ group.id }}">Delete</button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#add-group">
+  Add Group
+</button>
+<!-- Modals -->
+{% include 'groups/modal-add-group.html' %}
+{% endblock content %}

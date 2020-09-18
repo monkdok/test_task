@@ -15,7 +15,7 @@ class UserListView(View):
         form = CustomUserCreationForm()
         update_form = CustomUserChangeForm()
         users = User.objects.all()
-        groups = Group.objects.all()
+        groups = CustomGroup.objects.all()
         context = {
             'groups': groups,
             'form': form,
@@ -24,19 +24,11 @@ class UserListView(View):
         }
         return render(request, 'users/user-list.html', context)
 
-    # def post(self, request):
-    #     form = CustomUserCreationForm(request.POST)
-    #     if form.is_valid():
-    #         new_form = form.save(commit=False)
-    #         new_form.save()
-    #         form.save_m2m()
-    #     return redirect('user_list_url')
-
 
 class UserCreateView(View):
     def post(self, request):
         data = {}
-        form = CustomUserChangeForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             new_form = form.save(commit=False)
             new_form.save()
@@ -59,7 +51,7 @@ class UserUpdateView(View):
         user = User.objects.get(username=request.POST['old_username'])
         form = CustomUserChangeForm(request.POST or None, instance=user)
         users = User.objects.all()
-        groups = Group.objects.all()
+        groups = CustomGroup.objects.all()
         if form.is_valid():
             new_form = form.save(commit=False)
             new_form.save()
@@ -97,3 +89,37 @@ class UserDeleteView(View):
         data['html'] = render_to_string('users/ajax_snippets/delete-user-snippet.html', context, request)
         return JsonResponse(data)
 
+
+class GroupListView(View):
+    def get(self, request):
+        form = UserGroupForm()
+        groups = CustomGroup.objects.all()
+        context = {
+            'form': form,
+            'groups': groups
+        }
+        return render(request, 'groups/group-list.html', context)
+
+
+class GroupCreateView(View):
+    def post(self, request):
+        data = {}
+        form = UserGroupForm(request.POST)
+        if form.is_valid():
+            instance = form.save()
+            context = {
+                'group': instance,
+            }
+            data['form_is_valid'] = True
+            data['html'] = render_to_string('groups/ajax_snippets/add-group-snippet.html', context, request)
+        else:
+            data['form_is_valid'] = False
+        return JsonResponse(data)
+
+
+class GroupUpdateView(View):
+    pass
+
+
+class GroupDeleteView(View):
+    pass
