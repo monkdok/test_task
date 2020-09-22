@@ -142,11 +142,15 @@ $("#add-group-form").on('submit', function(e) {
 })
 
 
-$(document).on('click', '#edit-btn', function(e){
+// Update Group
+$(document).on('click', '#group-edit-btn', function(e){
     e.preventDefault()
     let name = $(this).attr('data-name')
     let url = $(this).attr('data-url')
+    console.log(name)
+    console.log(url)
     let description = $(this).attr('data-description')
+    console.log(description)
     // Passing initial form fields data
     $('input#edit_name').val(name)
     $('textarea#edit_description').val(description)
@@ -185,7 +189,7 @@ $(document).on('click', '#edit-btn', function(e){
 })
 
 
-// Delete Usegroupr
+// Delete Group
 $(document).on('click', '#delete-btn', function(e) {
     e.preventDefault()
     let id = $(this).attr('data-group-id')

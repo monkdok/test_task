@@ -2,7 +2,7 @@
   <li class="nav-item">
     {% url 'user_list_url' as user_list_url %}
     {% if user_list_url == request.path %}
-    <a class="nav-link active" href="{% url 'user_list_url' %}">Users</a>
+    <a class="nav-link active" href="">Users</a>
     {% else %}
     <a class="nav-link" href="{% url 'user_list_url' %}">Users</a>
     {% endif %}
@@ -10,7 +10,7 @@
   <li class="nav-item">
     {% url 'group_list_url' as group_list_url %}
     {% if group_list_url == request.path %}
-    <a class="nav-link active" href="{% url 'group_list_url' %}">Groups</a>
+    <a class="nav-link active" href="">Groups</a>
     {% else %}
     <a class="nav-link" href="{% url 'group_list_url' %}">Groups</a>
     {% endif %}

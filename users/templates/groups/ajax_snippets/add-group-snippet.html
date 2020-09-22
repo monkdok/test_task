@@ -3,8 +3,8 @@
         <td>{{ group }}</td>
         <td>{{ group.description }}</td>
         <td>
-            <button type="button" id="edit-btn" class="btn btn-outline-dark" data-toggle="modal" data-target="#edit-group" data-url="{% url 'update_group_url' %}"
-                    data-group-id="{{ group.id }}">Edit
+            <button type="button" id="group-edit-btn" class="btn btn-outline-dark" data-toggle="modal" data-target="#edit-group" data-url="{% url 'update_group_url' %}"
+                    data-name="{{ group }}" data-description="{{ group.description }}" data-group-id="{{ group.id }}">Edit
             </button>
             <button type="button" id="delete-btn" class="btn btn-danger" data-toggle="modal" data-target="#delete-group" data-url="{% url 'delete_group_url' %}"
                     data-group-id="{{ group.id }}">Delete</button>

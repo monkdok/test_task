@@ -1,13 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-
-from .models import User
 from .forms import *
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import render
 from django.views import View
-from django.views.generic import CreateView, ListView, UpdateView
 
 
 class UserListView(View):
@@ -152,3 +147,4 @@ class GroupDeleteView(View):
         data['deleted'] = True
         data['html'] = render_to_string('groups/ajax_snippets/delete-group-snippet.html', context, request)
         return JsonResponse(data)
+

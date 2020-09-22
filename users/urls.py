@@ -5,6 +5,7 @@ from django.conf import settings
 
 
 urlpatterns = [
+    # Users
     path('', UserListView.as_view(), name='user_list_url'),
     path('create/', UserCreateView.as_view(), name='add_user_url'),
     path('update/', UserUpdateView.as_view(), name='update_user_url'),
